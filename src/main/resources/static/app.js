@@ -6,6 +6,9 @@ let chartPointsCache = [];
 let chartCanvas = null;
 let chartCtx = null;
 let currentHeroId = null;
+let allTopPicks = [];
+let selectedCategory = 'ALL';
+let isLoggedIn = false;
 
 document.addEventListener('DOMContentLoaded', () => {
   chartCanvas = document.getElementById('priceChartCanvas');
@@ -16,13 +19,110 @@ document.addEventListener('DOMContentLoaded', () => {
   // Setup Event Listeners
   setupEventListeners();
 
-  // Initial Load with default query
-  executeSearch('원룸 가성비 무선청소기');
+  // Load Top-Pick Showcase items
+  loadTopPicks();
+
+  // 첫 접속 시에는 특정 제품 페이지가 바로 열리지 않고 깔끔한 홈 메인 상태로 유지
+  // executeSearch() 자동 호출을 하지 않습니다.
 });
 
 function setupEventListeners() {
   const searchInput = document.getElementById('searchInput');
   const searchBtn = document.getElementById('searchBtn');
+
+  // Home Navigation Triggers
+  const navHomeLogo = document.getElementById('navHomeLogo');
+  const navHomeBtn = document.getElementById('navHomeBtn');
+
+  function goHome() {
+    // 검색창 초기화
+    if (searchInput) searchInput.value = '';
+
+    // 검색 결과 영역 닫기
+    const resultSection = document.getElementById('resultSection');
+    const edgeCaseContainer = document.getElementById('edgeCaseContainer');
+    const fallbackNoticeBanner = document.getElementById('fallbackNoticeBanner');
+    const executionBadge = document.getElementById('executionBadge');
+
+    if (resultSection) resultSection.style.display = 'none';
+    if (edgeCaseContainer) edgeCaseContainer.style.display = 'none';
+    if (fallbackNoticeBanner) fallbackNoticeBanner.style.display = 'none';
+    if (executionBadge) executionBadge.style.display = 'none';
+
+    // 추천 태그 active 해제
+    document.querySelectorAll('.quick-chip').forEach(c => c.classList.remove('active'));
+
+    // 홈 화면 최상단으로 부드럽게 스크롤
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  if (navHomeLogo) navHomeLogo.addEventListener('click', goHome);
+  if (navHomeBtn) navHomeBtn.addEventListener('click', goHome);
+
+  // User Auth & Personal Info Modal / Menu Triggers
+  const navAuthBtn = document.getElementById('navAuthBtn');
+  const authBtnText = document.getElementById('authBtnText');
+  const userProfileDropdown = document.getElementById('userProfileDropdown');
+  const loginModal = document.getElementById('loginModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const modalLoginSubmit = document.getElementById('modalLoginSubmit');
+  const btnLogout = document.getElementById('btnLogout');
+
+  navAuthBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!isLoggedIn) {
+      // 로그인 모달 열기
+      loginModal.style.display = 'flex';
+    } else {
+      // 내 정보(개인정보) 드롭다운 토글
+      const isVisible = userProfileDropdown.style.display === 'block';
+      userProfileDropdown.style.display = isVisible ? 'none' : 'block';
+    }
+  });
+
+  // 모달 닫기
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', () => {
+      loginModal.style.display = 'none';
+    });
+  }
+
+  if (loginModal) {
+    loginModal.addEventListener('click', (e) => {
+      if (e.target === loginModal) {
+        loginModal.style.display = 'none';
+      }
+    });
+  }
+
+  // 로그인 제출
+  if (modalLoginSubmit) {
+    modalLoginSubmit.addEventListener('click', () => {
+      isLoggedIn = true;
+      loginModal.style.display = 'none';
+      navAuthBtn.classList.add('logged-in');
+      authBtnText.textContent = '홍길동 님 (내정보)';
+    });
+  }
+
+  // 로그아웃
+  if (btnLogout) {
+    btnLogout.addEventListener('click', () => {
+      isLoggedIn = false;
+      userProfileDropdown.style.display = 'none';
+      navAuthBtn.classList.remove('logged-in');
+      authBtnText.textContent = '로그인';
+    });
+  }
+
+  // 외부 클릭 시 드롭다운 닫기
+  document.addEventListener('click', () => {
+    if (userProfileDropdown) userProfileDropdown.style.display = 'none';
+  });
+
+  if (userProfileDropdown) {
+    userProfileDropdown.addEventListener('click', (e) => e.stopPropagation());
+  }
 
   // Search trigger
   searchBtn.addEventListener('click', () => {
@@ -43,6 +143,16 @@ function setupEventListeners() {
       const query = chip.getAttribute('data-q');
       searchInput.value = query;
       executeSearch(query);
+    });
+  });
+
+  // Category filter tabs
+  document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cat-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedCategory = btn.getAttribute('data-category');
+      filterAndRenderTopPicks();
     });
   });
 
@@ -101,6 +211,83 @@ function setupEventListeners() {
       if (tooltip) tooltip.style.display = 'none';
     });
   }
+}
+
+async function loadTopPicks() {
+  const container = document.getElementById('topPicksGrid');
+  try {
+    const res = await fetch('/api/v1/search/top-picks');
+    if (!res.ok) throw new Error('Failed to load top picks');
+    allTopPicks = await res.json();
+    filterAndRenderTopPicks();
+  } catch (err) {
+    console.error('Failed to load top picks:', err);
+    if (container) {
+      container.innerHTML = '<p style="color: var(--gray-500); grid-column: 1/-1; text-align: center;">상위 제품 목록을 불러오는 중 오류가 발생했습니다.</p>';
+    }
+  }
+}
+
+function filterAndRenderTopPicks() {
+  const container = document.getElementById('topPicksGrid');
+  if (!container) return;
+
+  const filtered = selectedCategory === 'ALL'
+    ? allTopPicks
+    : allTopPicks.filter(p => p.category === selectedCategory);
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<p style="color: var(--gray-500); grid-column: 1/-1; text-align: center; padding: 40px 0;">해당 카테고리의 제품이 없습니다.</p>';
+    return;
+  }
+
+  container.innerHTML = '';
+  filtered.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'top-pick-card';
+    const isLow = p.priceStatus === 'ALL_TIME_LOW';
+    const pillClass = isLow ? 'low' : 'fair';
+
+    card.innerHTML = `
+      <div class="top-pick-thumb-box">
+        <img src="${p.thumbnailUrl || 'https://via.placeholder.com/300'}" alt="${p.productName}" class="top-pick-thumb" loading="lazy">
+        <span class="card-category-tag">${p.category}</span>
+        <span class="card-onepick-badge">★ ONE-PICK 1위</span>
+      </div>
+      <div class="top-pick-body">
+        <div class="card-brand">${p.brand}</div>
+        <h3 class="card-name" title="${p.productName}">${p.productName}</h3>
+        <div class="card-reason-box">
+          <strong>1줄 사유:</strong> ${p.prescriptiveReason}
+        </div>
+        <div class="card-price-row">
+          <div>
+            <span class="card-price-num">${Number(p.currentPrice).toLocaleString()}</span>
+            <span class="card-price-unit">원</span>
+          </div>
+          <span class="card-meta-pill ${pillClass}">${p.priceStatusLabel}</span>
+        </div>
+        <div class="card-inspect-hint">
+          ⚡ 정밀 스펙 & 90일 가격 분석 보기 →
+        </div>
+      </div>
+    `;
+
+    // Click handler to trigger prescriptive search
+    card.addEventListener('click', () => {
+      const searchInput = document.getElementById('searchInput');
+      searchInput.value = p.recommendedQuery || p.productName;
+      executeSearch(p.recommendedQuery || p.productName);
+
+      // Smooth scroll to search result
+      const searchHero = document.querySelector('.search-hero');
+      if (searchHero) {
+        searchHero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    container.appendChild(card);
+  });
 }
 
 async function executeSearch(query) {
@@ -546,7 +733,7 @@ async function sendFeedback(isMatch) {
     const result = await res.json();
     feedbackArea.style.display = 'none';
     feedbackResult.style.display = 'block';
-    feedbackResult.textContent = `✓ ${result.message || '피드백이 안전하게 반영되었습니다.'}`;
+    feedbackResult.textContent = `✓ ${result.message || '피드백이 안전하게 반영되었습니다.'}` ;
   } catch (err) {
     console.error('Feedback failed:', err);
   }

@@ -84,6 +84,24 @@ data class AlternativeDto(
     val affiliateUrl: String
 )
 
+data class TopPickItemDto(
+    val productId: String,
+    val productName: String,
+    val brand: String,
+    val category: String,
+    val currentPrice: Long,
+    val originalPrice: Long? = null,
+    val thumbnailUrl: String,
+    val prescriptiveReason: String,
+    val nonTargetReason: String,
+    val sentimentScore: Double,
+    val complaintRate: Double,
+    val priceStatus: String,
+    val priceStatusLabel: String,
+    val tags: Set<String>,
+    val recommendedQuery: String
+)
+
 data class FeedbackRequest(
     val productId: String,
     val isMatch: Boolean,

@@ -139,14 +139,12 @@ class DeterministicSearchEngine(
 
         // 5. FN-FALLBACK-01 비상 대체 및 자동 승격 로직
         if (candidateHero.isFallbackTriggered) {
-            // Hero의 사전 정의 대안 혹은 차순위 후보에서 대안 탐색
             val fallbackProduct = findFallbackProduct(candidateHero, topProducts)
             if (fallbackProduct != null) {
                 log.info("FN-FALLBACK-01 Triggered: ${candidateHero.name} -> Promoted ${fallbackProduct.name}")
                 candidateHero = fallbackProduct
                 fallbackNotice = "기존 추천 상품의 일시 품절/가격 급등으로 1순위 대안 상품이 정답으로 지정되었습니다."
             } else {
-                // EC-02: Hero Pick 품절 및 대체 상품 부재
                 val elapsedMs = (System.nanoTime() - startNano) / 1_000_000.0
                 return PrescriptiveSearchResponse(
                     query = rawQuery,
@@ -196,14 +194,12 @@ class DeterministicSearchEngine(
     }
 
     private fun findFallbackProduct(hero: Product, candidates: List<Product>): Product? {
-        // 1. 사전 정의된 대안 중 정상 판매 중인 상품 조회
         for (alt in hero.predefinedAlternatives) {
             val p = productCatalog[alt.productId]
             if (p != null && !p.isFallbackTriggered) {
                 return p
             }
         }
-        // 2. 검색 후보군 중 차순위 정상 판매 상품 조회
         for (c in candidates.drop(1)) {
             if (!c.isFallbackTriggered) {
                 return c
@@ -279,7 +275,7 @@ class DeterministicSearchEngine(
                         SpecItemDto("브랜드", product.brand),
                         SpecItemDto("카테고리", product.category),
                         SpecItemDto("바이럴 검증", "클린 데이터 인증 완료 (어뷰징 0건)"),
-                        SpecItemDto("상세 사양", "- (데이터 미제공)") // EC-03
+                        SpecItemDto("상세 사양", "- (데이터 미제공)")
                     )
                 )
             )
@@ -306,6 +302,54 @@ class DeterministicSearchEngine(
             }
         }
         return score
+    }
+
+    fun getTopPicks(): List<TopPickItemDto> {
+        val cleanProducts = productCatalog.values.filter { !it.isFallbackTriggered }
+        val queryMap = mapOf(
+            "무선청소기" to "원룸 가성비 무선청소기",
+            "모니터" to "4K 개발자 모니터",
+            "로봇청소기" to "원룸 올인원 로봇청소기",
+            "무선이어폰" to "출퇴근 노이즈캔슬링 이어폰",
+            "기계식키보드" to "독거미 가스켓 기계식 키보드",
+            "헤어드라이기" to "모발보호 헤어드라이기",
+            "공기청정기" to "원룸 헤파필터 공기청정기",
+            "가습기" to "가열식 통세척 가습기",
+            "스마트워치" to "갤럭시워치 스마트워치",
+            "커피머신" to "홈카페 캡슐커피머신",
+            "게이밍마우스" to "지슈라2 게이밍 마우스"
+        )
+
+        val categoryGroups = cleanProducts.groupBy { it.category }
+        val topList = mutableListOf<TopPickItemDto>()
+
+        for ((category, products) in categoryGroups) {
+            val hero = products.maxByOrNull { it.realBuyerSentimentScore - (it.complaintRate * 5.0) } ?: continue
+            val priceAnalysis = hero.calculatePriceAnalysis()
+            val recQuery = queryMap[category] ?: "${hero.brand} ${hero.name}"
+
+            topList.add(
+                TopPickItemDto(
+                    productId = hero.id,
+                    productName = hero.name,
+                    brand = hero.brand,
+                    category = hero.category,
+                    currentPrice = hero.price,
+                    originalPrice = hero.originalPrice,
+                    thumbnailUrl = hero.imageUrl,
+                    prescriptiveReason = hero.prescriptiveReason ?: hero.defaultOneLineReason,
+                    nonTargetReason = hero.nonTargetReason,
+                    sentimentScore = hero.realBuyerSentimentScore,
+                    complaintRate = hero.complaintRate,
+                    priceStatus = priceAnalysis.status,
+                    priceStatusLabel = priceAnalysis.statusLabel,
+                    tags = hero.tags,
+                    recommendedQuery = recQuery
+                )
+            )
+        }
+
+        return topList.sortedByDescending { it.sentimentScore }
     }
 
     // 하위 호환용 search 메서드

@@ -35,6 +35,13 @@ class SearchPrescriptionService(
     }
 
     /**
+     * 홈페이지 메인에 노출할 카테고리별 상위 ONE-PICK 대표 리스트
+     */
+    fun getTopPicks(): List<TopPickItemDto> {
+        return searchEngine.getTopPicks()
+    }
+
+    /**
      * 사후 검증 피드백 루프 (Post-Purchase Verification)
      */
     fun recordFeedback(request: FeedbackRequest): FeedbackResponse {
@@ -63,8 +70,11 @@ class SearchPrescriptionService(
             PopularKeyword("원룸 가성비 무선청소기", 1520, 1.8),
             PopularKeyword("4K 개발자 모니터", 1180, 2.1),
             PopularKeyword("원룸 로봇청소기", 980, 1.9),
+            PopularKeyword("독거미 가스켓 기계식 키보드", 920, 1.6),
             PopularKeyword("출퇴근 노이즈캔슬링 이어폰", 840, 1.7),
-            PopularKeyword("가성비 헤어드라이기", 620, 1.5)
+            PopularKeyword("가열식 통세척 가습기", 760, 1.5),
+            PopularKeyword("모발보호 헤어드라이기", 680, 1.4),
+            PopularKeyword("지슈라2 게이밍 마우스", 610, 1.6)
         )
     }
 

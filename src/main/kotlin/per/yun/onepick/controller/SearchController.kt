@@ -31,6 +31,20 @@ class SearchController(
     }
 
     /**
+     * 홈페이지 메인 노출용 카테고리별 검증 상위 ONE-PICK 대표 리스트
+     * GET /api/v1/search/top-picks
+     */
+    @GetMapping("/top-picks")
+    fun getTopPicks(): ResponseEntity<List<TopPickItemDto>> {
+        val picks = prescriptionService.getTopPicks()
+        val headers = HttpHeaders().apply {
+            add("X-Deterministic-Engine", "ONE-PICK-Sub-10ms")
+            add("X-Total-Count", picks.size.toString())
+        }
+        return ResponseEntity.ok().headers(headers).body(picks)
+    }
+
+    /**
      * 사후 검증 피드백 엔드포인트 (PRD 3. 신뢰성 거버넌스)
      */
     @PostMapping("/feedback")

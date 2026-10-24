@@ -42,6 +42,22 @@ class PrescriptiveSearchTest {
     }
 
     @Test
+    fun `test top picks showcase endpoint returns verified products`() {
+        mockMvc.get("/api/v1/search/top-picks")
+            .andExpect {
+                status { isOk() }
+                header { exists("X-Deterministic-Engine") }
+                header { exists("X-Total-Count") }
+                jsonPath("$") { isArray() }
+                jsonPath("$.length()") { value(org.hamcrest.Matchers.greaterThanOrEqualTo(5)) }
+                jsonPath("$[0].productId") { exists() }
+                jsonPath("$[0].productName") { exists() }
+                jsonPath("$[0].prescriptiveReason") { exists() }
+                jsonPath("$[0].priceStatus") { exists() }
+            }
+    }
+
+    @Test
     fun `test post-purchase verification feedback endpoint`() {
         mockMvc.post("/api/v1/search/feedback") {
             contentType = MediaType.APPLICATION_JSON
