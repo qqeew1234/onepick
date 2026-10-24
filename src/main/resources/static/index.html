@@ -3,80 +3,327 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ONE-PICK (원픽) - 선택의 피로를 완전히 제거하는 커머스 플랫폼</title>
+  <title>ONE-PICK (원픽) - 단 하나의 결정 지정형 커머스</title>
   <link rel="stylesheet" href="/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <!-- Header -->
-    <header class="header">
-      <div class="brand-tag">🎯 Prescriptive Commerce Platform</div>
-      <h1>ONE-PICK (원픽)</h1>
-      <p>수백 개의 비교는 이제 그만. <strong>단 하나의 정답</strong>과 확실한 이유를 제공합니다.</p>
+  <div class="app-layout">
+    <!-- Top Navigation Header -->
+    <header class="navbar">
+      <div class="nav-container">
+        <div class="brand-logo" onclick="window.location.reload()">
+          <span class="logo-badge">ZERO CHOICE FATIGUE</span>
+          <span class="logo-text">ONE-PICK</span>
+        </div>
+        <div class="nav-engine-pill">
+          <span class="pulse-dot"></span>
+          <span>Revenue-Blind Engine</span>
+          <span class="pipe">|</span>
+          <span id="headerLatency">Latency: Sub-10ms</span>
+        </div>
+      </div>
     </header>
 
-    <!-- Search Section -->
-    <div class="search-wrapper">
-      <span class="search-icon">🔍</span>
-      <input 
-        type="text" 
-        id="searchInput" 
-        class="search-input" 
-        placeholder="어떤 물건을 고민 중이신가요? (예: 자취생 가성비 무선청소기, 출퇴근 노캔 이어폰)"
-        autocomplete="off"
-      />
-      <button id="searchBtn" class="search-btn">원픽 확인</button>
-    </div>
+    <!-- Main Container -->
+    <main class="main-content">
+      <!-- CMP-01 Search Box Component -->
+      <section class="search-hero">
+        <h1 class="hero-title">
+          수백 개를 비교하는 시대는 끝났습니다.<br>
+          <span class="highlight-text">실패 확률 제로, 단 하나의 정답만 지정합니다.</span>
+        </h1>
+        <p class="hero-desc">
+          상업성 광고와 바이럴을 100% 격리하고, 표준화된 성능 데이터와 90일 가격 변동률로 검증된 최적의 1개 제품을 도출합니다.
+        </p>
 
-    <!-- Keyword Chips -->
-    <div class="keyword-chips">
-      <span class="chips-label">🔥 실시간 추천 키워드:</span>
-      <div id="popularChips" style="display: inline-flex; gap: 8px; flex-wrap: wrap;"></div>
-    </div>
+        <div class="search-box-card">
+          <div class="search-input-group">
+            <span class="search-icon">🔍</span>
+            <input 
+              type="text" 
+              id="searchInput" 
+              class="search-input" 
+              placeholder="조건을 입력하세요 (예: 원룸 가성비 무선청소기, 4K 개발자 모니터, 출퇴근 노캔 이어폰)" 
+              value="원룸 가성비 무선청소기"
+              autocomplete="off"
+            />
+            <button id="searchBtn" class="search-action-btn">
+              <span>정답 지정</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          </div>
 
-    <!-- Latency Benchmark Indicator -->
-    <div id="latencyBanner" class="latency-bench" style="display: none;">
-      <span id="latencyBadge" class="bench-badge">⚡ Sub-10ms 엔진 연산</span>
-      <span id="latencyDetail" class="bench-sub">형태소 파싱 및 사전 매핑 완료</span>
-    </div>
+          <!-- Quick Query Tags -->
+          <div class="quick-tags">
+            <span class="quick-label">추천 결정 조건:</span>
+            <button class="quick-chip active" data-q="원룸 가성비 무선청소기">원룸 가성비 무선청소기</button>
+            <button class="quick-chip" data-q="4K 개발자 모니터">4K 개발자 모니터</button>
+            <button class="quick-chip" data-q="원룸 올인원 로봇청소기">원룸 올인원 로봇청소기</button>
+            <button class="quick-chip" data-q="출퇴근 노이즈캔슬링 이어폰">출퇴근 노이즈캔슬링 이어폰</button>
+            <button class="quick-chip" data-q="단독급상승">동적 대체(Fallback) 테스트</button>
+          </div>
 
-    <!-- Hero Pick & Alternatives Result Container -->
-    <div id="resultContainer"></div>
-
-    <!-- Anti-Viral Engine Simulator & Tool Section -->
-    <section class="tools-section">
-      <div class="tools-header">
-        <div>
-          <h3>🛡️ Anti-Viral 방지 알고리즘 검증기</h3>
-          <p style="font-size: 0.9rem; color: var(--gray-600); margin-top: 4px;">
-            ONE-PICK은 협찬, PPL, 위장 내돈내산 문구를 100% 탐지하여 검색 결과에서 사전 격리합니다.
-          </p>
+          <!-- Real-time Engine Execution Badge -->
+          <div id="executionBadge" class="execution-badge" style="display: none;">
+            <span class="badge-icon">⚡</span>
+            <span id="executionTimeText">연산 시간: 1.8ms</span>
+            <span class="badge-tag">결정론적 초저지연 도출</span>
+          </div>
         </div>
-        <button id="viewQuarantinedBtn" class="chip-btn" style="border-color: #f87171; color: #dc2626;">
-          격리된 상품 목록 확인
-        </button>
+      </section>
+
+      <!-- Dynamic Fallback Notice Banner (FN-FALLBACK-01) -->
+      <div id="fallbackNoticeBanner" class="alert-banner warning" style="display: none;">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-body">
+          <strong class="alert-title">안심 자동 승격 (Dynamic Fallback) 발동</strong>
+          <p id="fallbackNoticeText" class="alert-desc">기존 추천 상품의 일시 품절/가격 급등으로 1순위 대안 상품이 정답으로 지정되었습니다.</p>
+        </div>
       </div>
 
-      <div id="quarantinedListBox" style="display: none;"></div>
-
-      <div style="margin-top: 20px;">
-        <textarea 
-          id="auditInput" 
-          class="textarea-review" 
-          placeholder="테스트할 리뷰 문구를 입력해보세요. (예: 본 포스팅은 업체로부터 소정의 원고료를 지원받아 작성되었습니다.)"
-        ></textarea>
-        <button id="auditBtn" class="btn-audit">바이럴 패턴 실시간 분석</button>
-        <div id="auditResultBox" class="audit-result" style="display: none;"></div>
+      <!-- Edge Case Notice (EC-01, EC-02) -->
+      <div id="edgeCaseContainer" class="edge-case-card" style="display: none;">
+        <div class="edge-icon">ℹ️</div>
+        <div class="edge-content">
+          <h3 id="edgeCaseTitle">단 하나의 정답을 지정할 수 없습니다</h3>
+          <p id="edgeCaseMsg">입력하신 조건에 부합하는 정답 상품을 확정할 수 없습니다. 검색어를 단순화해 보세요.</p>
+        </div>
       </div>
-    </section>
+
+      <!-- Prescriptive Result Container -->
+      <div id="resultSection" class="result-section" style="display: none;">
+        
+        <!-- CMP-02 Hero Pick Card -->
+        <article class="hero-pick-card">
+          <!-- Card Header & Badge -->
+          <div class="hero-header">
+            <div class="hero-badge-pill">
+              <span class="star-icon">★</span>
+              <span>HERO PICK · 단 하나의 정답</span>
+            </div>
+            <div class="clean-audit-badge" title="상업성 블로그/어뷰징 100% 영구 격리 검증">
+              <span class="check-icon">✓</span> 클린 리뷰 검증 완료
+            </div>
+          </div>
+
+          <!-- Product Main Info Layout -->
+          <div class="hero-main-grid">
+            <!-- Left: Thumbnail -->
+            <div class="hero-image-col">
+              <div class="image-wrapper">
+                <img id="heroImage" src="" alt="Hero Pick 상품 이미지" class="product-thumb">
+              </div>
+            </div>
+
+            <!-- Right: Content & Decision Info -->
+            <div class="hero-content-col">
+              <div class="product-meta">
+                <span id="heroBrand" class="brand-name">테크라이프</span>
+                <h2 id="heroName" class="product-title">슬림 파워 무선청소기 V10 Lite</h2>
+              </div>
+
+              <!-- 1줄 선정 사유 (Prescriptive Reason Box) -->
+              <div class="decision-box reason-box">
+                <div class="box-label">
+                  <span class="label-icon">🎯</span> 1줄 선정 사유
+                </div>
+                <div id="heroReason" class="box-text">
+                  동급 대비 최경량(1.2kg) 및 원룸 마루 흡입력 최적화
+                </div>
+              </div>
+
+              <!-- 비추천 대상 (Anti-Target Exclusion Box) -->
+              <div class="decision-box non-target-box">
+                <div class="box-label">
+                  <span class="label-icon">⛔</span> 비추천 대상 (역타깃 고지)
+                </div>
+                <div id="heroNonTarget" class="box-text">
+                  실평수 25평 이상 거주자(배터리 용량 부족) 및 카펫 위주 거주 환경
+                </div>
+              </div>
+
+              <!-- Price & Price Badge (CMP-03) -->
+              <div class="price-action-row">
+                <div class="price-block">
+                  <div class="price-sub">실시간 최저 판매가</div>
+                  <div class="price-main">
+                    <span id="heroPrice" class="price-amount">189,000</span><span class="price-won">원</span>
+                    <span id="priceBadge" class="price-status-badge all-time-low">역대 최저가 수준</span>
+                  </div>
+                </div>
+
+                <div class="action-block">
+                  <div id="priceSpikeWarning" class="spike-warning" style="display: none;">
+                    ⚠️ 평소 평균 가격보다 5% 이상 높게 책정되어 있으므로 구매 보류를 권장합니다.
+                  </div>
+                  <a id="heroBuyLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-primary-action">
+                    <span>최저가 검증 구매처 이동</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CMP-04 Price History Chart Section -->
+          <section class="price-analysis-card">
+            <div class="chart-header">
+              <div>
+                <h3 class="section-title">📈 가격 변동률 분석 및 구매 적기 판정</h3>
+                <p class="section-desc">최근 실시간 가격 추이와 90일 평균선 대비 현재 가격의 상대적 위치를 분석합니다.</p>
+              </div>
+              <!-- 30일 / 90일 / 180일 Range Filter -->
+              <div class="range-btn-group">
+                <button class="range-btn" data-days="30">30일</button>
+                <button class="range-btn active" data-days="90">90일 (기본)</button>
+                <button class="range-btn" data-days="180">180일</button>
+              </div>
+            </div>
+
+            <!-- Price Statistics Chips -->
+            <div class="stat-summary-row">
+              <div class="stat-chip">
+                <span class="stat-name">역대 최저가</span>
+                <span id="statMinPrice" class="stat-val low">185,000원</span>
+              </div>
+              <div class="stat-chip">
+                <span class="stat-name">90일 평균가</span>
+                <span id="statAvgPrice" class="stat-val avg">205,000원</span>
+              </div>
+              <div class="stat-chip">
+                <span class="stat-name">역대 최고가</span>
+                <span id="statMaxPrice" class="stat-val high">239,000원</span>
+              </div>
+            </div>
+
+            <!-- Chart Canvas Container -->
+            <div class="chart-canvas-wrapper">
+              <canvas id="priceChartCanvas" width="900" height="260"></canvas>
+              <div id="chartTooltip" class="chart-tooltip" style="display: none;"></div>
+            </div>
+          </section>
+
+          <!-- CMP-05 Dual-Track Spec Switcher (상세 정보 이원화 열람 시스템) -->
+          <section class="dual-spec-card">
+            <div class="tab-header">
+              <button id="tabStandard" class="spec-tab active" data-tab="standard">
+                <span class="tab-icon">📋</span>
+                <span>탭 1: 플랫폼 표준 요약 (기본)</span>
+                <span class="tab-pill">3초 스캔</span>
+              </button>
+              <button id="tabCatalog" class="spec-tab" data-tab="catalog">
+                <span class="tab-icon">📄</span>
+                <span>탭 2: 제조사 공식 카탈로그</span>
+                <span class="tab-pill secondary">심층 검증</span>
+              </button>
+            </div>
+
+            <!-- Tab 1: Platform Standard Summary Content -->
+            <div id="tabContentStandard" class="tab-pane active">
+              <!-- 3-Second Key Metrics Cards -->
+              <div class="metrics-grid" id="heroKeyMetricsGrid">
+                <!-- Dynamically rendered -->
+              </div>
+
+              <!-- Verified Pros & Cons Grid -->
+              <div class="pros-cons-grid">
+                <div class="pros-box">
+                  <div class="pros-cons-title text-pros">
+                    <span class="icon">✓</span> 실구매자 검증 장점
+                  </div>
+                  <ul id="verifiedProsList" class="bullet-list pros-list">
+                    <!-- Dynamically rendered -->
+                  </ul>
+                </div>
+                <div class="cons-box">
+                  <div class="pros-cons-title text-cons">
+                    <span class="icon">✕</span> 실구매자 검증 단점
+                  </div>
+                  <ul id="verifiedConsList" class="bullet-list cons-list">
+                    <!-- Dynamically rendered -->
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Standardized Specs Full Table -->
+              <div class="specs-table-container">
+                <h4 class="specs-table-heading">플랫폼 표준 규격 상세 테이블</h4>
+                <div id="specSectionsContainer">
+                  <!-- Dynamically rendered -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 2: Official Raw Catalog Content (Lazy Load) -->
+            <div id="tabContentCatalog" class="tab-pane" style="display: none;">
+              <div class="catalog-viewer-header">
+                <div>
+                  <h4 class="catalog-heading">제조사 원본 상세페이지 및 카탈로그 브로슈어</h4>
+                  <p class="catalog-sub">마케팅 수식어가 포함된 제조사 원본 사양 및 세부 부품 도면입니다.</p>
+                </div>
+                <a id="catalogPdfLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-catalog-link">
+                  <span>공식 카탈로그 원본 보기 (PDF)</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                </a>
+              </div>
+
+              <div id="catalogImagesViewer" class="catalog-images-list">
+                <!-- Images lazy loaded via Intersection Observer -->
+              </div>
+
+              <!-- EC-04 Error Fallback for Catalog Images -->
+              <div id="catalogErrorFallback" class="catalog-error-box" style="display: none;">
+                <p>⚠️ 제조사 원본 카탈로그 이미지를 불러올 수 없습니다.</p>
+                <a id="catalogFallbackLink" href="#" target="_blank" class="btn-fallback">제조사 공식 웹사이트 바로가기</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- Post-Purchase Feedback Widget (PRD 3. 신뢰성 거버넌스) -->
+          <div class="feedback-widget">
+            <div class="feedback-text">
+              <strong>구매 후기 사전 조사</strong>: 제시된 1줄 사유가 사용자님의 구매 의도와 일치하나요?
+            </div>
+            <div class="feedback-buttons" id="feedbackActionArea">
+              <button class="feedback-btn match" onclick="sendFeedback(true)">👍 사유와 일치함</button>
+              <button class="feedback-btn mismatch" onclick="sendFeedback(false)">👎 불일치 (사유 재검토 요청)</button>
+            </div>
+            <div id="feedbackResultMsg" class="feedback-result" style="display: none;"></div>
+          </div>
+        </article>
+
+        <!-- CMP-06 Alternatives Accordion (선택 피로 방지 제한적 대안) -->
+        <section class="alternatives-wrapper">
+          <div class="accordion-trigger" id="alternativesToggleBtn">
+            <div class="trigger-left">
+              <span class="trigger-badge">제한적 대안 (최대 2개)</span>
+              <span class="trigger-title">추가 선택지가 필요하신가요? 다른 각도의 대안 비교하기</span>
+            </div>
+            <span class="accordion-arrow" id="accordionArrow">▼</span>
+          </div>
+
+          <div id="alternativesBody" class="alternatives-content" style="display: none;">
+            <p class="alternatives-guide">
+              선택의 피로를 방지하기 위해 가성비 및 하이엔드 대안을 각 1개씩만 엄선하여 노출합니다.
+            </p>
+            <div id="alternativesList" class="alternatives-grid">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
 
     <!-- Footer -->
-    <footer style="text-align: center; margin-top: 60px; color: var(--gray-400); font-size: 0.85rem;">
-      <p>ONE-PICK · 결정 지정형(Prescriptive) 초저지연 커머스 엔진 · Sub-10ms Architecture</p>
-      <p style="margin-top: 4px;">특정 제품 우대/협찬 일체 배제 · 순수 소비자 리뷰 정서 분석 및 바이럴 완전 격리</p>
+    <footer class="app-footer">
+      <div class="footer-container">
+        <p><strong>ONE-PICK (원픽)</strong> · 선택의 피로를 완전히 제거하는 결정 지정형 커머스 플랫폼</p>
+        <p class="sub">Revenue-Blind Engine: 제휴 수수료와 무관하게 데이터로 검증된 최적의 1개 제품만 지정합니다.</p>
+      </div>
     </footer>
   </div>
 

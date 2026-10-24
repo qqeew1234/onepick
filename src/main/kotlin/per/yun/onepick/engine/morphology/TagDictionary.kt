@@ -18,6 +18,8 @@ class TagDictionary {
         "가성" to setOf("가성비"),
         "가성비" to setOf("가성비"),
         "저렴" to setOf("가성비"),
+        "싼" to setOf("가성비"),
+        "싸" to setOf("가성비"),
         "보급" to setOf("가성비"),
         "보급형" to setOf("가성비"),
         "엔트리" to setOf("가성비"),
@@ -35,12 +37,16 @@ class TagDictionary {
         "흡입력" to setOf("흡입력"),
         "경량" to setOf("경량"),
         "가벼운" to setOf("경량"),
+        "소음" to setOf("저소음"),
+        "저소음" to setOf("저소음"),
+        "조용한" to setOf("저소음"),
 
         // 로봇청소기
         "로봇청소기" to setOf("로봇청소기"),
         "로봇" to setOf("로봇청소기"),
         "로청" to setOf("로봇청소기"),
         "물걸레" to setOf("물걸레"),
+        "올인원" to setOf("올인원"),
 
         // 헤어드라이어
         "드라이" to setOf("헤어드라이기"),
@@ -72,7 +78,11 @@ class TagDictionary {
         "개발자" to setOf("개발자", "모니터", "고해상도"),
         "코딩" to setOf("개발자", "모니터"),
         "주사율" to setOf("게이밍"),
-        "주사" to setOf("게이밍")
+        "주사" to setOf("게이밍"),
+
+        // 동적 대체 테스트용 태그
+        "급상승" to setOf("단독급상승"),
+        "단독급상승" to setOf("단독급상승")
     )
 
     fun mapToTags(morphemes: List<String>): Set<String> {

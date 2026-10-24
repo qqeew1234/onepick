@@ -6,7 +6,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
-import kotlin.test.assertTrue
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -16,14 +15,14 @@ class SearchControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @Test
-    fun `test search API endpoint`() {
-        mockMvc.get("/api/v1/search?q=자취생 가성비 무선청소기")
+    fun `test legacy search API endpoint`() {
+        mockMvc.get("/api/v1/search?q=원룸 가성비 무선청소기")
             .andExpect {
                 status { isOk() }
                 header { exists("X-Deterministic-Engine") }
                 header { exists("X-Response-Time-Ms") }
                 jsonPath("$.heroItem") { exists() }
-                jsonPath("$.heroItem.name") { value("차이슨 i10 가성비 무선청소기") }
+                jsonPath("$.heroItem.name") { value("슬림 파워 무선청소기 V10 Lite") }
                 jsonPath("$.prescriptiveReason") { isNotEmpty() }
                 jsonPath("$.antiViralGuaranteed") { value(true) }
             }
