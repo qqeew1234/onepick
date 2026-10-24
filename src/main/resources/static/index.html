@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ONE-PICK (원픽) - 선택의 피로를 완전히 제거하는 커머스 플랫폼</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand-tag">🎯 Prescriptive Commerce Platform</div>
+      <h1>ONE-PICK (원픽)</h1>
+      <p>수백 개의 비교는 이제 그만. <strong>단 하나의 정답</strong>과 확실한 이유를 제공합니다.</p>
+    </header>
+
+    <!-- Search Section -->
+    <div class="search-wrapper">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        id="searchInput" 
+        class="search-input" 
+        placeholder="어떤 물건을 고민 중이신가요? (예: 자취생 가성비 무선청소기, 출퇴근 노캔 이어폰)"
+        autocomplete="off"
+      />
+      <button id="searchBtn" class="search-btn">원픽 확인</button>
+    </div>
+
+    <!-- Keyword Chips -->
+    <div class="keyword-chips">
+      <span class="chips-label">🔥 실시간 추천 키워드:</span>
+      <div id="popularChips" style="display: inline-flex; gap: 8px; flex-wrap: wrap;"></div>
+    </div>
+
+    <!-- Latency Benchmark Indicator -->
+    <div id="latencyBanner" class="latency-bench" style="display: none;">
+      <span id="latencyBadge" class="bench-badge">⚡ Sub-10ms 엔진 연산</span>
+      <span id="latencyDetail" class="bench-sub">형태소 파싱 및 사전 매핑 완료</span>
+    </div>
+
+    <!-- Hero Pick & Alternatives Result Container -->
+    <div id="resultContainer"></div>
+
+    <!-- Anti-Viral Engine Simulator & Tool Section -->
+    <section class="tools-section">
+      <div class="tools-header">
+        <div>
+          <h3>🛡️ Anti-Viral 방지 알고리즘 검증기</h3>
+          <p style="font-size: 0.9rem; color: var(--gray-600); margin-top: 4px;">
+            ONE-PICK은 협찬, PPL, 위장 내돈내산 문구를 100% 탐지하여 검색 결과에서 사전 격리합니다.
+          </p>
+        </div>
+        <button id="viewQuarantinedBtn" class="chip-btn" style="border-color: #f87171; color: #dc2626;">
+          격리된 상품 목록 확인
+        </button>
+      </div>
+
+      <div id="quarantinedListBox" style="display: none;"></div>
+
+      <div style="margin-top: 20px;">
+        <textarea 
+          id="auditInput" 
+          class="textarea-review" 
+          placeholder="테스트할 리뷰 문구를 입력해보세요. (예: 본 포스팅은 업체로부터 소정의 원고료를 지원받아 작성되었습니다.)"
+        ></textarea>
+        <button id="auditBtn" class="btn-audit">바이럴 패턴 실시간 분석</button>
+        <div id="auditResultBox" class="audit-result" style="display: none;"></div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="text-align: center; margin-top: 60px; color: var(--gray-400); font-size: 0.85rem;">
+      <p>ONE-PICK · 결정 지정형(Prescriptive) 초저지연 커머스 엔진 · Sub-10ms Architecture</p>
+      <p style="margin-top: 4px;">특정 제품 우대/협찬 일체 배제 · 순수 소비자 리뷰 정서 분석 및 바이럴 완전 격리</p>
+    </footer>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
